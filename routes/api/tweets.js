@@ -3,8 +3,9 @@ const router = express.Router();
 
 const {
   createTweet,
-  deleteTweet,
-  updateTweet
+  retrieveTweet,
+  updateTweet,
+  deleteTweet
 } = require("../../controllers/tweets");
 const { createTweetValidator } = require("../../middleware/tweets");
 const { verifyTokenMiddleware } = require("../../middleware/auth");
@@ -16,8 +17,10 @@ router.get("/", (req, res) => res.send("Tweets Route"));
 
 router.post("/", verifyTokenMiddleware, createTweetValidator, createTweet);
 
-router.delete("/:id", verifyTokenMiddleware, deleteTweet);
+router.get("/:id", retrieveTweet);
 
 router.put("/:id", verifyTokenMiddleware, updateTweet);
+
+router.delete("/:id", verifyTokenMiddleware, deleteTweet);
 
 module.exports = router;

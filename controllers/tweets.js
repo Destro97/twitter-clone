@@ -90,9 +90,6 @@ module.exports.deleteTweet = async (req, res) => {
         message: "Resource not found"
       });
     }
-    console.log(req.user);
-    console.log(tweet.user);
-    console.log(req.user.id === tweet.user.toString());
     if (req.user.id !== tweet.user.toString()) {
       return res.status(403).json({
         message: "User not authorised to perform this action"
@@ -114,5 +111,64 @@ module.exports.deleteTweet = async (req, res) => {
   return res.status(200).json({
     message: "ok",
     payload: { tweetId }
+  });
+};
+
+module.exports.retrieveTweet = async (req, res) => {
+  const error = errorHandler(req);
+  if (error) {
+    return res.status(400).json({
+      message: error
+    });
+  }
+  let tweet;
+  try {
+    tweet = await Tweet.findById(req.params.id);
+    if (!tweet) {
+      return res.status(400).json({
+        message: "Resource not found"
+      });
+    }
+  } catch (err) {
+    console.error(`Error occured while deleting tweet ${err}`);
+    if (err.kind == "ObjectId") {
+      return res.status(400).json({
+        message: "Resource not found"
+      });
+    }
+    return res.status(500).json({
+      message: "internal server error"
+    });
+  }
+  return res.status(200).json({
+    message: "ok",
+    payload: { tweet }
+  });
+};
+
+module.exports.tweetsByUserId = async (req, res) => {
+  const error = errorHandler(req);
+  if (error) {
+    return res.status(400).json({
+      message: error
+    });
+  }
+  let tweets;
+  try {
+    tweets = await Tweet.find({ user: req.params.id }).sort({ created: -1 });
+    if (!tweets) {
+      return res.status(400).json({
+        message: "Resource not found"
+      });
+    }
+  } catch (err) {
+    console.error(`Error occured while deleting tweet ${err}`);
+    return res.status(500).json({
+      message: "internal server error"
+    });
+  }
+  return res.status(200).json({
+    message: "ok",
+    payload: { tweets }
   });
 };
