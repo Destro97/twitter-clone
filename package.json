@@ -1,0 +1,27 @@
+{
+  "name": "twitter_clone",
+  "version": "1.0.0",
+  "description": "A clone for Social Network twitter",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server",
+    "dev": "nodemon server"
+  },
+  "author": "Yash Mangla",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "express-validator": "^6.4.0",
+    "googleapis": "^48.0.0",
+    "gravatar": "^1.8.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.9.6",
+    "uuid": "^7.0.2"
+  },
+  "devDependencies": {
+    "concurrently": "^5.1.0",
+    "morgan": "^1.10.0",
+    "nodemon": "^2.0.2"
+  }
+}
