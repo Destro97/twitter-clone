@@ -2,7 +2,9 @@ const mongoose = require("mongoose");
 const { v1: uuidv1 } = require("uuid");
 const crypto = require("crypto");
 
-const UserSchema = new mongoose.Schema({
+const Schema = mongoose.Schema;
+
+const UserSchema = new Schema({
   firstName: {
     type: String,
     trim: true
@@ -38,7 +40,33 @@ const UserSchema = new mongoose.Schema({
   created: {
     type: Date,
     default: Date.now()
-  }
+  },
+  followers: [
+    {
+      user: {
+        id: {
+          type: Schema.Types.ObjectId,
+          ref: "users"
+        },
+        name: {
+          type: String
+        }
+      }
+    }
+  ],
+  following: [
+    {
+      user: {
+        id: {
+          type: Schema.Types.ObjectId,
+          ref: "users"
+        },
+        name: {
+          type: String
+        }
+      }
+    }
+  ]
 });
 
 UserSchema.methods.encryptPassword = function(password) {

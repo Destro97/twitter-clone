@@ -1,9 +1,12 @@
 const express = require("express");
 const router = express.Router();
 
+const { verifyTokenMiddleware } = require("../../middleware/auth");
+const { fetchUserFeed } = require("../../controllers/feed");
+
 // @route   GET api/feed
 // @desc    Test route
-// @access  Public
-router.get("/", (req, res) => res.send("Feed Route"));
+// @access  Private
+router.get("/", verifyTokenMiddleware, fetchUserFeed);
 
 module.exports = router;

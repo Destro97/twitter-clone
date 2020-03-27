@@ -1,14 +1,14 @@
 const express = require("express");
 const router = express.Router();
 
+const { createTweetValidator } = require("../../middleware/tweets");
+const { verifyTokenMiddleware } = require("../../middleware/auth");
 const {
   createTweet,
   retrieveTweet,
   updateTweet,
   deleteTweet
 } = require("../../controllers/tweets");
-const { createTweetValidator } = require("../../middleware/tweets");
-const { verifyTokenMiddleware } = require("../../middleware/auth");
 
 // @route   GET api/tweets
 // @desc    Test route

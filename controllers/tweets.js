@@ -153,16 +153,22 @@ module.exports.tweetsByUserId = async (req, res) => {
       message: error
     });
   }
+  console.log(req.headers);
   let tweets;
   try {
     tweets = await Tweet.find({ user: req.params.id }).sort({ created: -1 });
-    if (!tweets) {
+    if (!tweets.length) {
       return res.status(400).json({
         message: "Resource not found"
       });
     }
   } catch (err) {
     console.error(`Error occured while deleting tweet ${err}`);
+    if (err.kind == "ObjectId") {
+      return res.status(400).json({
+        message: "Resource not found"
+      });
+    }
     return res.status(500).json({
       message: "internal server error"
     });
