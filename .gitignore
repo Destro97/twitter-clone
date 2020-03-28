@@ -1,4 +1,6 @@
 node_modules
 client/node_modules
 package-lock.json
-client
+client/package-lock.json
+client/README.md
+# client
