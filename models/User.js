@@ -18,6 +18,13 @@ const UserSchema = new Schema({
     required: true,
     trim: true
   },
+  handle: {
+    type: String,
+    required: true,
+    trim: true,
+    unique: true,
+    index: true
+  },
   email: {
     type: String,
     unique: true,
@@ -68,6 +75,8 @@ const UserSchema = new Schema({
     }
   ]
 });
+
+UserSchema.index({ handle: "text" });
 
 UserSchema.methods.encryptPassword = function(password) {
   if (!password) return "";

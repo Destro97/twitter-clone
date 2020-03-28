@@ -11,16 +11,16 @@ module.exports.fetchUserFeed = async (req, res) => {
       message: "Follow someone to see their tweets here!"
     });
   const userFollowingUserIds = userFollowing.map(user => user.user.id);
-  const tweets = await Tweet.find({ user: { $in: userFollowingUserIds } }).sort(
-    {
+  const tweets = await Tweet.find({ user: { $in: userFollowingUserIds } })
+    .populate("user", "avatar handle")
+    .sort({
       created: -1
-    }
-  );
+    });
   if (!tweets.length)
     return res.status(404).json({
       message: "No tweets to show!"
     });
-  return res.status(404).json({
+  return res.status(200).json({
     message: "ok",
     payload: { tweets }
   });

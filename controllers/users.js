@@ -1,5 +1,4 @@
 const { errorHandler } = require("../services/errorHandlers");
-const mongoose = require("mongoose");
 const User = require("../models/User");
 
 module.exports.fetchUserProfile = async (req, res) => {
@@ -132,7 +131,7 @@ module.exports.unfollowUser = async (req, res) => {
       `Error occured while processing unfollow request by user ${requestUserId} for user ${unfollowedUserId}`
     );
     if (err.kind == "ObjectId") {
-      return res.status(400).json({
+      return res.status(404).json({
         message: "User not found"
       });
     }
@@ -145,5 +144,55 @@ module.exports.unfollowUser = async (req, res) => {
     payload: {
       success: true
     }
+  });
+};
+
+module.exports.fetchAllUsers = async (req, res) => {
+  let users;
+  try {
+    users = await User.find().select(
+      "displayName handle avatar created followers following"
+    );
+  } catch (err) {
+    console.error(`Error occured while finding all users as ${err}`);
+    return res.status(500).json({
+      message: "internal server error"
+    });
+  }
+  if (users.length === 0)
+    return res.status(200).json({
+      message: "No users found"
+    });
+  return res.status(200).json({
+    message: "ok",
+    payload: { users }
+  });
+};
+
+module.exports.searchByHandle = async (req, res) => {
+  if (!req.query || !req.query.search)
+    return res.status(400).json({
+      message: "Bad request"
+    });
+  let users;
+  try {
+    users = await User.find({
+      handle: { $regex: req.query.search, $options: "i" }
+    }).select("displayName handle avatar created followers following");
+  } catch (err) {
+    console.error(
+      `Error occured while finding all users with handle like ${req.query.search} as ${err}`
+    );
+    return res.status(500).json({
+      message: "internal server error"
+    });
+  }
+  if (users.length === 0)
+    return res.status(200).json({
+      message: "No users found"
+    });
+  return res.status(200).json({
+    message: "ok",
+    users
   });
 };

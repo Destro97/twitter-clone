@@ -36,6 +36,7 @@ module.exports.login = async (req, res) => {
         id: userdata._id,
         name: userdata.displayName,
         email: userdata.email,
+        handle: userdata.handle,
         avatar: userdata.avatar
       }
     }
@@ -53,6 +54,15 @@ module.exports.signup = async (req, res) => {
         message: "Account with provided email already exists."
       });
     }
+    const sameHandleUsers = await User.find({
+      $text: { $search: req.body.handle }
+    });
+    console.log(sameHandleUsers);
+    if (sameHandleUsers.length > 0) {
+      return res.status(406).json({
+        message: `Handle ${req.body.handle} is already taken.`
+      });
+    }
     if (req.body.lastName) {
       req.body.displayName = `${req.body.firstName} ${req.body.lastName}`;
     } else {
@@ -68,6 +78,7 @@ module.exports.signup = async (req, res) => {
     const returnData = {
       id: userdata._id,
       name: userdata.displayName,
+      handle: userdata.handle,
       email: userdata.email,
       avatar: userdata.avatar
     };
@@ -93,5 +104,8 @@ module.exports.googleLogin = async (req, res) => {
   const userdata = await getGoogleAccountFromCode(code);
   if (userdata.err) return res.status(500).json({ err: userdata.err });
   const token = generateToken(userdata._id);
+  const userId = userdata._id;
+  userdata.id = userId;
+  delete userdata._id;
   return res.status(200).json({ user: userdata, token });
 };

@@ -26,9 +26,7 @@ module.exports.createTweet = async (req, res) => {
   }
   return res.status(200).json({
     message: "ok",
-    payload: {
-      tweet: savedTweet
-    }
+    tweet: savedTweet
   });
 };
 
@@ -123,7 +121,8 @@ module.exports.retrieveTweet = async (req, res) => {
   }
   let tweet;
   try {
-    tweet = await Tweet.findById(req.params.id);
+    tweet = await Tweet.findById(req.params.id).populate("user", "avatar");
+    console.log(tweet);
     if (!tweet) {
       return res.status(400).json({
         message: "Resource not found"

@@ -61,17 +61,18 @@ const getGoogleAccountFromCode = async code => {
     const user = new User({
       displayName: me.data.name,
       email: me.data.email,
-      avatar: me.data.photo,
+      handle: me.data.email,
+      avatar: me.data.picture,
       googleID: me.data.id
     });
-    const existingUser = await User.findOne({ googleID: user.id });
+    const existingUser = await User.findOne({ googleID: user.googleID });
     if (existingUser) {
       return existingUser;
     }
     const savedUser = await user.save();
     return savedUser;
   } catch (err) {
-    console.error("Error occured ${err}");
+    console.error(`Error occured ${err}`);
     return { err };
   }
 };

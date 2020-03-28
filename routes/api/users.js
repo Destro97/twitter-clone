@@ -6,8 +6,14 @@ const { tweetsByUserId } = require("../../controllers/tweets");
 const {
   fetchUserProfile,
   followUser,
-  unfollowUser
+  unfollowUser,
+  fetchAllUsers,
+  searchByHandle
 } = require("../../controllers/users");
+
+router.get("/", fetchAllUsers);
+
+router.get("/search/handle", searchByHandle);
 
 router.get("/:id/tweets", tweetsByUserId);
 

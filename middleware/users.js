@@ -7,6 +7,9 @@ module.exports.userLocalSignupValidator = [
   check("lastName", "Last Name is required")
     .not()
     .isEmpty(),
+  check("handle", "Handle is required")
+    .not()
+    .isEmpty(),
   check("email", "Email is required")
     .not()
     .isEmpty(),

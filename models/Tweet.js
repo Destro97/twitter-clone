@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 const commentSchema = new Schema({
   user: {
     type: Schema.Types.ObjectId,
-    ref: "users"
+    ref: "user"
   },
   text: {
     type: String,
@@ -16,14 +16,14 @@ const commentSchema = new Schema({
 const likeSchema = new Schema({
   user: {
     type: Schema.Types.ObjectId,
-    ref: "users"
+    ref: "user"
   }
 });
 
 const TweetSchema = new Schema({
   user: {
     type: Schema.Types.ObjectId,
-    ref: "users"
+    ref: "user"
   },
   text: {
     type: String,
