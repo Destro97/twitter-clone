@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node server",
     "dev": "nodemon server",
-    "start-dev": "concurrently \"npm run dev\" \"cd client && npm start\""
+    "start-dev": "concurrently \"npm run dev\" \"cd client && npm start\" \"redis-server\""
   },
   "author": "Yash Mangla",
   "license": "ISC",
