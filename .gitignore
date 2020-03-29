@@ -3,4 +3,4 @@ client/node_modules
 package-lock.json
 client/package-lock.json
 client/README.md
-# client
+config/keys.js

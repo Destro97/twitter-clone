@@ -7,10 +7,9 @@ const {
   createTweet,
   retrieveTweet,
   updateTweet,
-  deleteTweet
+  deleteTweet,
+  tweetsOfUser
 } = require("../../controllers/tweets");
-
-router.get("/", (req, res) => res.send("Tweets Route"));
 
 router.post("/", verifyTokenMiddleware, createTweetValidator, createTweet);
 
@@ -19,6 +18,8 @@ router.get("/:id", retrieveTweet);
 router.put("/:id", verifyTokenMiddleware, updateTweet);
 
 router.delete("/:id", verifyTokenMiddleware, deleteTweet);
+
+router.get("/", verifyTokenMiddleware, tweetsOfUser);
 
 // TO BE IMPLEMENTED
 // router.post("/:id/like", verifyTokenMiddleware, updateTweet);

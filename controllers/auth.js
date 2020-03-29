@@ -98,14 +98,12 @@ module.exports.googleLoginUrl = (req, res) => {
 };
 
 module.exports.googleLogin = async (req, res) => {
-  console.log(req.body.code);
-  console.log(req.body);
   const code = req.body.code;
   const userdata = await getGoogleAccountFromCode(code);
   if (userdata.err) return res.status(500).json({ err: userdata.err });
   const token = generateToken(userdata._id);
-  const userId = userdata._id;
-  userdata.id = userId;
-  delete userdata._id;
-  return res.status(200).json({ user: userdata, token });
+  const returnData = userdata.toJSON();
+  delete returnData.followers;
+  delete returnData.following;
+  return res.status(200).json({ user: returnData, token });
 };

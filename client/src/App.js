@@ -9,6 +9,7 @@ import {
 import "./App.css";
 import Navbar from "./Navbar";
 import Users from "./user/pages/Users";
+import UserProfile from "./user/pages/UserProfile";
 import Feed from "./feed/pages/Feed";
 import Signup from "./auth/pages/Signup";
 import Login from "./auth/pages/Login";
@@ -54,6 +55,7 @@ const App = props => {
         <Route path="/Feed" exact>
           <Feed />
         </Route>
+        <Route exact path="/user/:id" component={UserProfile}></Route>
         <Redirect to="/"></Redirect>
       </Switch>
     </Router>

@@ -41,13 +41,13 @@ const getOAuth2Api = auth => {
   });
 };
 
-const urlGoogle = () => {
+module.exports.urlGoogle = () => {
   const auth = googleAuthConnection();
   const url = getConnectionUrl(auth);
   return url;
 };
 
-const getGoogleAccountFromCode = async code => {
+module.exports.getGoogleAccountFromCode = async code => {
   const auth = googleAuthConnection();
   const data = await auth.getToken(code);
   const tokens = data.tokens;
@@ -56,7 +56,6 @@ const getGoogleAccountFromCode = async code => {
   const me = await oauth2Client.userinfo.get({
     auth
   });
-  console.log(me.data);
   try {
     const user = new User({
       displayName: me.data.name,
@@ -75,9 +74,4 @@ const getGoogleAccountFromCode = async code => {
     console.error(`Error occured ${err}`);
     return { err };
   }
-};
-
-module.exports = {
-  urlGoogle,
-  getGoogleAccountFromCode
 };

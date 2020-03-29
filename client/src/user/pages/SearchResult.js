@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 
 import UsersList from "../components/UsersList";
-import { searchUsers } from "../api";
+import { searchUsers, followUser, unfollowUser } from "../api";
 
 class SearchResult extends Component {
   constructor() {
@@ -16,7 +16,6 @@ class SearchResult extends Component {
   async fetchUsers(search) {
     const response = await searchUsers(search);
     if (response.status === 200) {
-      // if (response.body.payload && response.body.payload.users.length > 0)
       this.setState({
         users: response.body.users || [],
         found: true
@@ -26,22 +25,37 @@ class SearchResult extends Component {
   }
 
   async componentDidMount() {
-    // console.log(this.props);
     const search = this.props.location.search.slice(1);
     await this.fetchUsers(search);
   }
 
   async componentDidUpdate(prevProps) {
-    console.log(prevProps);
-    console.log(this.props);
     if (prevProps.location.search !== this.props.location.search) {
       const search = this.props.location.search.slice(1);
       await this.fetchUsers(search);
     }
   }
 
+  followUser = async id => {
+    await followUser(id);
+    const search = this.props.location.search.slice(1);
+    await this.fetchUsers(search);
+  };
+
+  unfollowUser = async id => {
+    await unfollowUser(id);
+    const search = this.props.location.search.slice(1);
+    await this.fetchUsers(search);
+  };
+
   render() {
-    return <UsersList users={this.state.users} />;
+    return (
+      <UsersList
+        followUser={this.followUser}
+        unfollowUser={this.unfollowUser}
+        users={this.state.users}
+      />
+    );
   }
 }
 

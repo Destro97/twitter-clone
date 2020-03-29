@@ -26,7 +26,7 @@ module.exports.createTweet = async (req, res) => {
   }
   return res.status(200).json({
     message: "ok",
-    tweet: savedTweet
+    tweet: savedTweet.toJSON()
   });
 };
 
@@ -67,9 +67,7 @@ module.exports.updateTweet = async (req, res) => {
   }
   return res.status(200).json({
     message: "ok",
-    payload: {
-      tweet: tweet
-    }
+    tweet: tweet.toJSON()
   });
 };
 
@@ -93,7 +91,7 @@ module.exports.deleteTweet = async (req, res) => {
         message: "User not authorised to perform this action"
       });
     }
-    tweetId = tweet.id;
+    tweetId = tweet.toJSON().id;
     await tweet.remove();
   } catch (err) {
     console.error(`Error occured while deleting tweet ${err}`);
@@ -108,7 +106,7 @@ module.exports.deleteTweet = async (req, res) => {
   }
   return res.status(200).json({
     message: "ok",
-    payload: { tweetId }
+    tweetId
   });
 };
 
@@ -141,24 +139,25 @@ module.exports.retrieveTweet = async (req, res) => {
   }
   return res.status(200).json({
     message: "ok",
-    payload: { tweet }
+    tweet: tweet.toJSON()
   });
 };
 
-module.exports.tweetsByUserId = async (req, res) => {
+module.exports.tweetsOfUser = async (req, res) => {
   const error = errorHandler(req);
   if (error) {
     return res.status(400).json({
       message: error
     });
   }
-  console.log(req.headers);
   let tweets;
   try {
-    tweets = await Tweet.find({ user: req.params.id }).sort({ created: -1 });
+    tweets = await Tweet.find({ user: req.user.id })
+      .populate("user", "avatar handle")
+      .sort({ created: -1 });
     if (!tweets.length) {
       return res.status(400).json({
-        message: "Resource not found"
+        message: "You haven't posted any tweets yet!"
       });
     }
   } catch (err) {
@@ -174,6 +173,6 @@ module.exports.tweetsByUserId = async (req, res) => {
   }
   return res.status(200).json({
     message: "ok",
-    payload: { tweets }
+    tweets
   });
 };

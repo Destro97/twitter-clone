@@ -72,11 +72,7 @@ const Navbar = ({ history }) => (
             <Link
               className="nav-link"
               style={isActive(history, `/user/${isAuthenticated().user.id}`)}
-              to={
-                isAuthenticated().user.id
-                  ? `/user/${isAuthenticated().user.id}`
-                  : `/user/${isAuthenticated().user._id}`
-              }
+              to={`/user/${isAuthenticated().user.id}`}
             >
               {`${isAuthenticated().user.handle}'s Profile`}
             </Link>

@@ -41,19 +41,12 @@ export default class AddTweet extends Component {
         <div className="col">
           <br />
           <div className="card">
-            <div
-              className="alert alert-danger"
-              style={{ display: this.state.error ? "" : "none" }}
-            >
-              {this.state.error}
-            </div>
-            <div
-              className="alert alert-success"
-              style={{ display: this.state.success ? "" : "none" }}
-            >
-              Tweet posted successfully.
-              <Link to={`/tweets/${this.state.tweetId}`}> Open tweet.</Link>
-            </div>
+            {this.state.error ? (
+              <div className="alert alert-danger">{this.state.error}</div>
+            ) : null}
+            {this.state.success
+              ? this.props.clickCancel(this.state.success)
+              : null}
             <div className="card-body">
               <form>
                 <div className="form-group">
@@ -69,7 +62,10 @@ export default class AddTweet extends Component {
               </form>
               <div className="row">
                 <button
-                  onClick={this.props.clickCancel}
+                  onClick={this.props.clickCancel.bind(
+                    this,
+                    this.state.success
+                  )}
                   className="btn btn-raised btn-danger"
                 >
                   Cancel

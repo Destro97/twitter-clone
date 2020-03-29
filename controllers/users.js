@@ -165,7 +165,7 @@ module.exports.fetchAllUsers = async (req, res) => {
     });
   return res.status(200).json({
     message: "ok",
-    payload: { users }
+    users
   });
 };
 

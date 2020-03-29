@@ -30,10 +30,12 @@ const UsersList = props => {
             <UserItem
               key={user.id || user._id}
               id={user.id || user._id}
-              handle={user.displayName}
+              name={user.displayName}
+              handle={user.handle}
               avatar={user.avatar}
               joined={user.created}
               isCurrUser={isCurrUser}
+              showViewProfile={true}
               showFollow={showFollow}
               follow={props.followUser}
               unfollow={props.unfollowUser}

@@ -9,21 +9,30 @@ export default class Feed extends Component {
     super();
     this.state = {
       showAddTweetForm: false,
-      tweets: []
+      tweets: [],
+      addTweetSuccess: false,
+      error: ""
     };
   }
 
   async componentDidMount() {
     const response = await fetchFeed();
-    if (response.body.payload && response.body.payload.tweets) {
+    if (response.body && response.body.tweets) {
       this.setState({
-        tweets: response.body.payload.tweets
+        tweets: response.body.tweets || []
+      });
+    } else {
+      this.setState({
+        error: response.body.message || "No tweets to show"
       });
     }
   }
 
-  tweetButtonToggle = () => {
-    this.setState({ showAddTweetForm: !this.state.showAddTweetForm });
+  tweetButtonToggle = addTweetSuccess => {
+    this.setState({
+      showAddTweetForm: !this.state.showAddTweetForm,
+      addTweetSuccess: addTweetSuccess
+    });
   };
 
   addTweetButton() {
@@ -31,7 +40,7 @@ export default class Feed extends Component {
       <div className="container">
         <br />
         <button
-          onClick={this.tweetButtonToggle}
+          onClick={this.tweetButtonToggle.bind(this, false)}
           className="btn btn-raised btn-primary"
         >
           Add Tweet
@@ -43,12 +52,19 @@ export default class Feed extends Component {
   render() {
     return (
       <div>
+        {this.state.addTweetSuccess ? (
+          <div className="alert alert-success">Tweet posted successfully.</div>
+        ) : null}
         {this.state.showAddTweetForm ? (
           <AddTweet clickCancel={this.tweetButtonToggle} />
         ) : (
           this.addTweetButton()
         )}
-        <TweetList tweets={this.state.tweets} />
+        <TweetList
+          tweets={this.state.tweets}
+          error={this.state.error}
+          isCurrUser={false}
+        />
       </div>
     );
   }

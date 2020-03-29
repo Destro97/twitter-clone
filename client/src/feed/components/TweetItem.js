@@ -3,7 +3,6 @@ import React from "react";
 
 const TweetItem = props => {
   const tweet = props.tweet;
-  // return <div></div>;
   return (
     <>
       <div className="card">
@@ -31,16 +30,22 @@ const TweetItem = props => {
           </h6>
         </div>
         <div className="card-body">
-          {/* className="card-title" */}
-          <p className="card-text" style={{ "font-size": "20px" }}>
+          <p className="card-text" style={{ fontSize: "20px", color: "black" }}>
             {tweet.text}
           </p>
-          {/* <Link
-            to={`/users/${tweet.user.handle}/tweets/${tweet.id}`}
-            className="btn btn-raised btn-small btn-primary"
-          >
-            View Profile
-          </Link> */}
+          {props.isCurrUser ? (
+            <div className="row">
+              {/* <button className="btn btn-raised btn-small btn-primary">
+              Edit Tweet
+            </button> */}
+              <button
+                className="btn btn-raised btn-small btn-danger"
+                onClick={props.deleteConfirm.bind(this, props.id)}
+              >
+                Delete Tweet
+              </button>
+            </div>
+          ) : null}
         </div>
         <div className="card-footer">
           <small className="text-muted">

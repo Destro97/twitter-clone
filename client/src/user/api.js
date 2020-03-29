@@ -76,3 +76,36 @@ export const unfollowUser = async userId => {
     body: await response.json()
   };
 };
+
+export const getTweetsOfAuthenticatedUser = async () => {
+  const token = isAuthenticated().token;
+  const response = await fetch(`${process.env.REACT_APP_API_URL}/tweets`, {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      Authorization: `${token}`
+    }
+  });
+  return {
+    status: response.status,
+    body: await response.json()
+  };
+};
+
+export const deleteTweet = async tweetId => {
+  const token = isAuthenticated().token;
+  const response = await fetch(
+    `${process.env.REACT_APP_API_URL}/tweets/${tweetId}`,
+    {
+      method: "DELETE",
+      headers: {
+        Accept: "application/json",
+        Authorization: `${token}`
+      }
+    }
+  );
+  return {
+    status: response.status,
+    body: await response.json()
+  };
+};

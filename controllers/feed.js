@@ -17,11 +17,12 @@ module.exports.fetchUserFeed = async (req, res) => {
       created: -1
     });
   if (!tweets.length)
-    return res.status(404).json({
+    return res.status(200).json({
       message: "No tweets to show!"
     });
+  const returnTweets = tweets.map(tweet => tweet.toJSON());
   return res.status(200).json({
     message: "ok",
-    payload: { tweets }
+    tweets: returnTweets
   });
 };

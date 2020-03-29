@@ -47,4 +47,12 @@ const TweetSchema = new Schema({
   }
 });
 
+TweetSchema.set("toJSON", {
+  virtuals: true,
+  versionKey: false,
+  transform: function(doc, ret) {
+    delete ret._id;
+  }
+});
+
 module.exports = User = mongoose.model("tweet", TweetSchema);

@@ -4,6 +4,8 @@ const cors = require("cors");
 
 const dbConnection = require("./config/db");
 
+const { limiter } = require("./services/rateLimiter");
+
 const app = express();
 
 // Connect Databse
@@ -13,6 +15,7 @@ dbConnection();
 app.use(morgan("dev"));
 app.use(cors());
 app.use(express.json({ extended: false }));
+app.use(limiter);
 
 app.get("/", (req, res) => res.send("API RESPONSE"));
 

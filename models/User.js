@@ -109,4 +109,12 @@ UserSchema.methods.authenticate = function(plainPassword) {
   return this.encryptPassword(plainPassword) === this.hashPassword;
 };
 
+UserSchema.set("toJSON", {
+  virtuals: true,
+  versionKey: false,
+  transform: function(doc, ret) {
+    delete ret._id;
+  }
+});
+
 module.exports = User = mongoose.model("user", UserSchema);

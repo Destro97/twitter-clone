@@ -15,7 +15,7 @@ export default class Users extends Component {
   async getUsers() {
     let users = [];
     const response = await listUsers();
-    if (response.status === 200) users = response.body.payload.users;
+    if (response.status === 200) users = response.body.users;
     return users;
   }
 

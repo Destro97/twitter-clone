@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const { verifyTokenMiddleware } = require("../../middleware/auth");
-const { tweetsByUserId } = require("../../controllers/tweets");
+// const { tweetsByUserId } = require("../../controllers/tweets");
 const {
   fetchUserProfile,
   followUser,
@@ -15,7 +15,7 @@ router.get("/", fetchAllUsers);
 
 router.get("/search/handle", searchByHandle);
 
-router.get("/:id/tweets", tweetsByUserId);
+// router.get("/:id/tweets", tweetsByUserId);
 
 router.get("/:id/profile", fetchUserProfile);
 
