@@ -8,7 +8,7 @@ module.exports.limiter = new RateLimit({
     client: client
   }),
   max: 100,
-  windowMs: 10 * 60 * 1000,
+  windowMs: 60 * 60 * 1000,
   delayMs: 0,
   handler: (req, res) => {
     return res.status(429).json({
