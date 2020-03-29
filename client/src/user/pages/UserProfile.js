@@ -66,7 +66,8 @@ class UserProfile extends Component {
             <UserItem
               key={this.state.user.id || this.state.user._id}
               id={this.state.user.id || this.state.user._id}
-              handle={this.state.user.displayName}
+              name={this.state.user.displayName}
+              handle={this.state.user.handle}
               avatar={this.state.user.avatar}
               joined={this.state.user.created}
               isCurrUser={true}

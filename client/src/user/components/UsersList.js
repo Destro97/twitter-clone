@@ -15,21 +15,19 @@ const UsersList = props => {
       <h2 className="mt-5 mb-5">Users</h2>
       <div className="card-deck">
         {props.users.map(user => {
-          const currUserId =
-            isAuthenticated().user._id || isAuthenticated().user.id;
+          const currUserId = isAuthenticated()["user"].id;
           let showFollow;
           let isCurrUser;
-          if (user._id !== currUserId)
+          if (user.id !== currUserId)
             showFollow = !(
-              user.followers.filter(
-                follower => follower.user.id.toString() === currUserId
-              ).length > 0
+              user.followers.filter(follower => follower.user.id === currUserId)
+                .length > 0
             );
           else isCurrUser = true;
           return (
             <UserItem
-              key={user.id || user._id}
-              id={user.id || user._id}
+              key={user.id}
+              id={user.id}
               name={user.displayName}
               handle={user.handle}
               avatar={user.avatar}
